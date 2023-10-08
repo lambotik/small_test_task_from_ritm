@@ -1,15 +1,18 @@
 from datetime import datetime
-
+import os
 import allure
+
 import pytest
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
 @pytest.fixture(scope='function')
 def driver():
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service)
+    options = Options()
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(options=options)
+    driver.implicitly_wait(10)
     driver.maximize_window()
     print('Start')
     yield driver
